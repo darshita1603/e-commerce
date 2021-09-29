@@ -1,0 +1,67 @@
+{% extends "base.html"%}
+{% load rest_framework %}
+{% load static%}
+{% load crispy_forms_tags %}
+{% block content %}
+<body class="page-template belle">
+  <div class="pageWrapper">
+    <!--Search Form Drawer-->
+    <div class="search">
+      <div class="search__form">
+        <!-- <form class="search-bar__form" action="#">
+          <button class="go-btn search__button" type="submit"><i class="icon anm anm-search-l"></i></button>
+          <input class="search__input" type="search" name="q" value="" placeholder="Search entire store..."
+            aria-label="Search" autocomplete="off">
+        </form> -->
+        <button type="button" class="search-trigger close-btn"><i class="icon anm anm-times-l"></i></button>
+      </div>
+    </div>
+
+    <!--End Mobile Menu-->
+
+    <!--Body Content-->
+    <div id="page-content">
+      <!--Page Title-->
+      <div class="page section-header text-center">
+        <div class="page-title">
+          <div class="wrapper">
+            <h1 class="page-width">Lets Bid.....</h1>
+          </div>
+        </div>
+      </div>
+      <!--End Page Title-->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3">
+            <div class="mb-4">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token%}
+                {{form|crispy}}
+                <input type="hidden" name="id" value="{{product.pk}}"> 
+                {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        <a>{{ message }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="row">
+                  <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                  <button type="submit" style="width: 400px;height:40px;margin-top:20px;color:white;background-color:skyblue;font-size:16px;">Update</button>
+                    <!-- <input type="submit" class="btn mb-3" value="Sign In"> -->
+    
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+</body>
+{% endblock%}
+
+<!-- belle/login.html   11 Nov 2019 12:22:27 GMT -->

@@ -37,11 +37,18 @@
               <form method="POST" enctype="multipart/form-data">
                 {% csrf_token%}
                 <input type="hidden" name="id" value="{{product.pk}}"> 
+                {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        <a>{{ message }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
                 <div class="row">
                   <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group">
                       <label class="form-label" for="price">Price</label>
-                    <input type="number" name="price" class="form-control" id="price" placeholder="Enter price">
+                    <input type="number" name="price" min="1" max="10000000" class="form-control" id="price" placeholder="Enter price">
                     </div>
                   </div>
                 </div>

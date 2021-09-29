@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, render
 from rest_framework.serializers import Serializer
-
+   
+from django.shortcuts import render,get_object_or_404,redirect
 # Create your views here.
 
 from django.contrib.auth.models import User
@@ -38,6 +39,41 @@ def cart(request):
             return Response(serializer.data,status=status.HTTP_201_CREATED)
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
 
-def cart(request):
-    print("kkkkkk")
-    return render(request,"cart/cart.html")
+# def cart_data(request,pk):
+#     product_details=[]
+#     token=request.user.auth_token
+#     user=request.user
+#     print(user)
+#     cart_data=list(Cart.objects.filter(user__username=user))
+#     print(cart_data,"09090909")
+
+#     for i in cart_data:
+#         print(i.product.id)
+#         p1 = Product.objects.get(pk=i.product.id)
+#         product_details.append(p1)
+        
+#     print(product_details)
+    
+#     return render(request,"cart/cart.html",{'products':product_details})
+
+def cart_data(request,pk):
+    token=request.user.auth_token
+    user=request.user
+    print(user)
+    # current_user = get_object_or_404(User)
+    Userid = user
+    print(Userid)
+    product_details = get_object_or_404(Product, pk=pk)
+    print(product_details,"pppppppppppppppp")
+    Cart(user=Userid,product=product_details,price=product_details.price).save()
+
+    cid=Cart.objects.filter(user=user)
+    return render(request,"cart/cart.html",{'products':cid})
+
+    # return redirect('cartdata')
+
+@api_view(['DELETE'])
+def delete_cart_product(request,pk):
+    cart_product_details =get_object_or_404(Cart,pk=pk)
+    cart_product_details.delete()
+    return Response({"message":"Delete Successfully"},status=status.HTTP_204_NO_CONTENT)

@@ -1,8 +1,9 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 from rest_framework.serializers import Serializer
-
+from django.core import validators
 # Create your views here.
 from.serializer import *
+from django.contrib import messages
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -12,15 +13,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 from rest_framework import status
 from django.http.response import HttpResponse
 from rest_framework.decorators import api_view,permission_classes
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
-
+from myapp.forms import *
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
@@ -78,6 +76,10 @@ class LogOutView(APIView):
         except request.user.auth_token.DoesNotExist:
              return HttpResponse({"message":"Please check token is not valid"},status=status.HTTP_400_BAD_REQUEST)
 
+def Logout(request):
+    request.user.auth_token.delete()
+    django_logout(request)
+    return render(request,"login.html")
 
 def dashboard(request):
     product=Product.objects.all()
@@ -103,13 +105,29 @@ def product(request):
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
 
 
+
+
+
+
 def product_details(request,pk):
     product=Product.objects.get(pk=pk)
     user = User.objects.get(id=pk)
     print(user,"iiiii")
     #do something with this user
     print(product,"ppppppppppppppp")
-    return render(request,"product_details.html",{'products':product})
+    get_all_price=list(Bid.objects.filter(product=product.id).values_list('price',flat=True))
+    print(get_all_price,"ritaaaaaaaaaaaaaaaa")
+
+    if not get_all_price:
+        return render(request,"product_details.html",{'products':product})
+    else:
+        max_value=max(get_all_price)
+        print(max_value)
+        context={
+            'products':product,
+            'max_value':max_value
+        }
+        return render(request,"product_details.html",context)
 
 # create bid api........
 
@@ -131,6 +149,60 @@ def bid(request):
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
     # return render(request,"bid.html")
 
+@api_view(["GET"])
+def bid_get(request,pk):
+    # user = User.objects.get(pk=pk)
+    # print(user,"iiiiiiiiiiiii")
+    # bid=Bid.objects.get(pk=pk)
+    # print(bid,"yyyyyy")
+
+    if request.method=="GET":
+        print("getttttt")
+        bid=Bid.objects.get(pk=pk)
+        user=User.objects.get(id=pk)
+        print(user)
+        serializer=BidSerializer(bid)
+        print(serializer,"ppppppppppppppp")
+        # print(serializer.data,"datttaa")
+        return Response(serializer.data)
+
+@api_view(["PUT"])
+def bid_update(request,pk):
+    if request.method=="PUT":
+        bid=Bid.objects.get(pk=pk)
+        product=Product.objects.get(pk=pk)
+        print(product.id)
+        user = User.objects.get(id=pk)
+        print(user)
+
+        data={
+            "user":user.id,
+            "product":product.id,
+            "price":request.data['price']
+
+        }   
+
+        serializer=BidSerializer(bid,data=data)
+        if  serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
+
+def bid_updatedata(request,pk):
+        bid=Bid.objects.get(pk=pk)
+        user = User.objects.get(id=pk)
+        product=Product.objects.get(pk=pk)
+        data_list = get_object_or_404(Bid, pk=pk)
+        form = UserUpdateForm(request.POST or None, instance=data_list)
+       
+        # for i in form:
+        #     print(i.user,"jijiiiji")
+        if form.is_valid():
+            form.save()
+            form=UserUpdateForm(request.POST)
+            return redirect("singleproductdetail",pk=pk)
+        return render(request,'update_bid.html',{"form":form})
+
 def bid_data(request,pk):    
     print(request.POST,pk)
     if request.method=="POST":
@@ -138,25 +210,49 @@ def bid_data(request,pk):
         # print(serializer,"iiiiiiiiiiiiiiii")
         print("5555555555555")
         print("77777777777777")
-        print(request.user)
+        # print(request.user)
         # print(request.product)
-        data=Bid.objects.filter(user=request.user).first()
-        print(data.product.id)
+        # data=Bid.objects.filter(user=request.user).first()
+        # print(data.product.id)
+        
+        product=Product.objects.get(pk=pk)
+        user = User.objects.get(id=pk)
+        print(user)
+        # product=Product.objects.get(pk=pk)
+        # print(product,"77777777777777777777")
+        # user = User.objects.get(id=pk)
+        pro_price=product.price
 
+        bid_price=int(request.POST["price"])
+        print(bid_price)
+      
         context={
-            "user":request.user.id,
-            "product":data.product.id,
+            "user":user.id,
+            "product":product.id,
             "price":request.POST["price"]
 
-        }     
-        serializers=BidSerializer(data=context)
-        if serializers.is_valid():
-            serializers.save()
+        }   
+        print(product.id,"iiiiiiiiitttttttttttttttt")
+        data1=list(Bid.objects.filter(product=product.id).values_list('price',flat=True))
+        print(data1,"ritaaaaaaaaaaaaaaaa")
+    
+
+        if bid_price > pro_price:
+                serializers=BidSerializer(data=context)
+                serializers.is_valid()
+                serializers.save()
+                return redirect("singleproductdetail",pk=pk)
+        else:
+            # raise django.forms.ValidationError(_('Enter a valid price.'))
+            messages.error(request,f'Please Enter Valid Bid Price')
+            return redirect("biddata",pk=pk)
+            
+           
         # print(serializers)
         # user = User.objects.get(id=pk)
         # print(user,"iiiii")
         # product=Product.objects.filter(user=request.user).first()
         # print(product,"00000000000000000")
        
-        return redirect("singleproductdetail",pk=pk)
+        # return redirect("singleproductdetail",pk=pk)
     return render(request,"bid.html")

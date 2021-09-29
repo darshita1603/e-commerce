@@ -72,7 +72,7 @@
                                       
                                     </div>
                                     <!-- <div id="quantity_message">Hurry! Only  <span class="items">4</span>  left in stock.</div> -->
-                                    <form method="post" action="http://annimexweb.com/cart/add" id="product_form_10508262282" accept-charset="UTF-8" class="product-form product-form-product-template hidedropdown" enctype="multipart/form-data">
+        
                                         <div class="swatch clearfix swatch-0 option1" data-option-index="0">
                                             <div class="product-form__item">
                                               <label class="header">Color: <span class="slVariant">{{products.color}}</span></label>
@@ -124,7 +124,7 @@
                                                 </div>
                                             </div>                                
                                             <div class="product-form__item--submit">
-                                                <button type="button" name="add" class="btn product-form__cart-submit">
+                                                <a href="{% url 'cartdata' products.pk %}"><button type="button" name="add" class="btn product-form__cart-submit">
                                                     <span>Add to cart</span>
                                                 </button>
                                             </div>
@@ -132,16 +132,16 @@
                                                 <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded">Buy it now</button>
                                             </div>
                                             <div>
-                                              <a href="{% url 'biddata' products.pk %}"><button type="button" style="width: 400px;height:40px;margin-top:20px;color:white;background-color:skyblue;font-size:16px;">Bid now</button></a>
+                                              <a href="{% url 'biddata' products.pk %}"><button class="button button1">Bid Now</button></a>
+                                              <a href="{% url 'bidupdatedata' products.pk %}"><button class="button button2">Update Bid</button></a>
                                             </div>
-                                            </div>
+                                            <h3>Current Bid:- {{max_value}}</h3>
                                           </div>
                                         </div>
                                         <div>
-                                         
                                         </div>
                                         <!-- End Product Action -->
-                                    </form>
+                                  
                                     <div class="display-table shareRow">
                                             <div class="display-table-cell medium-up--one-third">
                                                 <div class="wishlist-btn">
