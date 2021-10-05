@@ -32,7 +32,15 @@
       <div class="container">
         <div class="row">
           <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
-            <form action="#" method="post" class="cart style2">
+            <form method="POST" class="cart style2" enctype="multipart/form-data">
+              {%csrf_token%}
+              {% if messages %}
+              <div class="alert alert-success">
+                  {% for message in messages %}
+                      <a>{{ message }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
               <table>
                 <thead class="cart__row cart__header">
                   <tr>
@@ -44,8 +52,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for i in products %}
+                
                   <tr class="cart__row border-bottom line1 cart-flex border-top">
+                    {% for i in products %}
                     <td class="cart__image-wrapper cart-flex-item">
                       <a href="#"><img class="cart__image" src="{{i.product.image.url}}"
                           alt="Elastic Waist Dress - Navy / Small"></a>
@@ -72,16 +81,14 @@
                         </div>
                       </div>
                     </td>
-                    {% endfor %}
                     <td class="text-right small--hide cart-price">
                       <div><span class="money">{{total}}</span></div>
                     </td>
-                    <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove"
+                    <td class="text-center small--hide"><a href="{% url 'deletecart' pk=i.pk%}" class="btn btn--secondary cart__remove"
                         title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
-                  </tr>
-              
+                    </tr>
+                    {% endfor %}   
                 </tbody>
-
               </table>
             </form>
           </div>
@@ -131,5 +138,4 @@
     <!--End Scoll Top-->
   </div>
 </body>
-
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.db.models import fields
+from django.db.models.base import Model
 from rest_framework import exceptions, serializers
 from. models import *
 from rest_framework.validators import UniqueValidator
@@ -78,3 +79,9 @@ class BidSerializer(serializers.ModelSerializer):
     class Meta:
         model=Bid
         fields = ['user','product','price']
+
+
+class CheckOutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Profile
+        fields = ['user','first_name','last_name','product','mobileno','city','state','address','pincode']

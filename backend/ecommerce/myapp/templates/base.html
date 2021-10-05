@@ -11,10 +11,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Belle Multipurpose Bootstrap 4 Html Template</title>
+    <title>Motorcar</title>
     <meta name="description" content="description">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="shortcut icon" href="{% static 'assets/images/favicon.png'%}" />
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/plugins.css'%}">
@@ -22,6 +23,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css'%}">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'assets/css/main.css'%}">
     <link rel="stylesheet" href="{% static 'assets/css/responsive.css'%}">
 </head>
@@ -45,7 +47,7 @@
                         <!-- <li><a href="{% url 'login'%}">Login</a></li>
                         <li><a href="{% url 'register'%}">Create Account</a></li> -->
                         <li><a href="profile.html">My Profile</a></li>
-                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="{% url 'getcartdata'%}">Cart</a></li>
                         <li><a href="wishlist.html">Wishlist</a></li>
                         <li><a href="{% url 'logoutdata'%}">Logout</a></li>
                     </ul>
@@ -155,6 +157,7 @@
         <script src="{% static 'assets/js/vendor/wow.min.js'%}"></script>
         <!-- Including Javascript -->
         <script src="{% static 'assets/js/bootstrap.min.js'%}"></script>
+  
         <script src="{% static 'assets/js/plugins.js'%}"></script>
         <script src="{% static 'assets/js/popper.min.js'%}"></script>
         <script src="{% static 'assets/js/lazysizes.js'%}"></script>

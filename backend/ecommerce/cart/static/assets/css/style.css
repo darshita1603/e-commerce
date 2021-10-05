@@ -1115,7 +1115,7 @@ table { margin-bottom:15px; width:100%; border-collapse:collapse; border-spacing
 .payment-accordion .card .card-header a { display:block; font-size:16px; font-weight:500; text-transform:uppercase; }
 .order-button-payment .btn { font-size:18px; font-size:700; padding: 10px 20px; }
 .customer-box .discount-coupon, .customer-box .customer-info { background-color:#f7f7f7; padding:20px; }
-.create-ac-content, .your-order-payment { border:1px solid #ddd; padding:20px; }
+.create-ac-content, .your-order-payment { border:1px solid #ddd; padding:20px; margin-left: 300px; width: 100%; }
 .create-ac-content .form-check { margin-left:15px; }
 .customer-box input[type="email"], .customer-box input[type="text"], .customer-box input[type="password"] { background-color:#fff; }
 .order-button-payment { margin-top:30px; }
@@ -1662,3 +1662,4 @@ body.home15-funiture-template { font-size:14px; }
 
 .blur-up.lazyloaded { -webkit-filter:blur(0); filter:blur(0); }
 .blur-up { -webkit-filter:blur(5px); filter:blur(5px); transition:filter 400ms, -webkit-filter 400ms; -webkit-transition:filter 400ms, -webkit-filter 400ms; }
+.your-order-payment { border:1px solid #ddd; padding:20px; margin-left: 300px; width: 100%; }

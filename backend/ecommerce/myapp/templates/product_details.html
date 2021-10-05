@@ -43,7 +43,6 @@
                                             <a href="#" class="btn prlightbox" title="Zoom"><i class="icon anm anm-expand-l-arrows" aria-hidden="true"></i></a>
                                         </div> -->
                                     </div>
-                             
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -122,12 +121,16 @@
                                                         <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>
                                                     </div>
                                                 </div>
-                                            </div>                                
+                                            </div>    
+                                            <form method="POST" action="{% url 'cartdata' products.pk %}">  
+                                                {%csrf_token%}                          
                                             <div class="product-form__item--submit">
-                                                <a href="{% url 'cartdata' products.pk %}"><button type="button" name="add" class="btn product-form__cart-submit">
+                                               <button type="submit" name="add" class="btn product-form__cart-submit">
                                                     <span>Add to cart</span>
                                                 </button>
                                             </div>
+                                            </form>
+                                
                                             <div class="shopify-payment-button" data-shopify="payment-button">
                                                 <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded">Buy it now</button>
                                             </div>
@@ -136,6 +139,7 @@
                                               <a href="{% url 'bidupdatedata' products.pk %}"><button class="button button2">Update Bid</button></a>
                                             </div>
                                             <h3>Current Bid:- {{max_value}}</h3>
+                                            <h3>Bid User list:- {{userdata}}</h3>
                                           </div>
                                         </div>
                                         <div>
