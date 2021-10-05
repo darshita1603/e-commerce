@@ -1,0 +1,123 @@
+{% extends "base.html"%}
+{% load rest_framework %}
+{% load static %}
+{% block content %}
+
+<body class="page-template belle cart-variant1">
+  <div class="pageWrapper">
+    <!--Search Form Drawer-->
+    <div class="search">
+      <div class="search__form">
+        <form class="search-bar__form" action="#">
+          <button class="go-btn search__button" type="submit"><i class="icon anm anm-search-l"></i></button>
+          <input class="search__input" type="search" name="q" value="" placeholder="Search entire store..."
+            aria-label="Search" autocomplete="off">
+        </form>
+        <button type="button" class="search-trigger close-btn"><i class="icon anm anm-times-l"></i></button>
+      </div>
+    </div>
+  
+    <!--Body Content-->
+    <div id="page-content">
+      <!--Page Title-->
+      <div class="page section-header text-center">
+        <div class="page-title">
+          <div class="wrapper">
+            <h1 class="page-width">Your Cart</h1>
+          </div>
+        </div>
+      </div>
+      <!--End Page Title-->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
+            <form method="POST" class="cart style2" enctype="multipart/form-data">
+              {%csrf_token%}
+              {% if messages %}
+              <div class="alert alert-success">
+                  {% for message in messages %}
+                      <a>{{ message }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+              <table>
+                <thead class="cart__row cart__header">
+                  <tr>
+                    <th colspan="2" class="text-center">Product</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-right">Total</th>
+                    <th class="text-right">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="cart__row border-bottom line1 cart-flex border-top">
+                    {% for i in products %}
+                    <td class="cart__image-wrapper cart-flex-item">
+                      <a href="#"><img class="cart__image" src="{{i.product.image.url}}"
+                          alt="Elastic Waist Dress - Navy / Small"></a>
+                    </td>
+                    <td class="cart__meta small--text-left cart-flex-item">
+                      <div class="list-view-item__title">
+                        <a href="#">{{i.product.model_name}}</a>
+                      </div>
+
+                      <div class="cart__meta-text">
+                        Color: {{i.product.color}}<br>year: {{i.product.car_published_year}}<br>
+                      </div>
+                    </td>
+                    <td class="cart__price-wrapper cart-flex-item">
+                      <span class="money">{{i.price}}</span>
+                    </td>
+                    <td class="text-right small--hide cart-price">
+                      <div><span class="money">{{i.total}}</span></div>
+                    </td>
+                    <td class="text-center small--hide"><a href="{% url 'deletecart' i.id %}" class="btn btn--secondary cart__remove"
+                        title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
+                    </tr>
+                    {% endfor %}   
+                </tbody>
+              </table>
+            </form>
+          </div>
+       
+          <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
+            <div class="solid-border">
+              <div class="row border-bottom pb-2 pt-2">
+                <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Grand Total</strong></span>
+                <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span
+                    class="money">{{total}}</span></span>
+              </div>
+              <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div>
+              <!-- <p class="cart_tearm">
+                <label>
+                  <input type="checkbox" name="tearm" class="checkbox" value="tearm" required="">
+                  I agree with the terms and conditions
+                </label>
+              </p> -->
+              <!-- <form action="{% url 'getcartdata'%}" onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy'); return false; }">
+
+                <input type="checkbox" name="checkbox" value="check" id="agree" /> I have read and agree to the Terms and Conditions and Privacy Policy
+                <input type="submit" name="submit" value="Place Order" />
+              </form> -->
+              <div class="paymnet-img"><img src="{% static 'assets/images/payment-img.jpg'%}" alt="Payment"></div>
+              <p><a href="#;">Checkout with Multiple Addresses</a></p>
+            </div>
+            
+            <div><i class='fas fa-shield-alt'></i> Safe and Secure Payments.Easy returns.100% Authentic products.</div>
+            <a href="{% url 'checkout' pk=userid %}"><button class="button button1">Place Order</button></a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--End Body Content--> 
+
+
+    <!--End Footer-->
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+  </div>
+</body>
+{% endblock %}

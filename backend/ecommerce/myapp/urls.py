@@ -1,7 +1,7 @@
 from django.db import router
 from django.urls import path
 from rest_framework import views
-from .views import RegisterView,LoginView,LogOutView, product
+from .views import RegisterView,LoginView,LogOutView, product,Profile
 from . import views 
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
@@ -21,6 +21,9 @@ urlpatterns=[
     path('product_details/',views.product_details,name="productdetails"),
     path('product_details/<int:pk>',views.product_details,name="singleproductdetail"),
     path('bid',views.bid,name="bid"),
+    path('checkout/<int:pk>',views.checkout,name="checkout"),
+    path('check',views.check,name="check"),
+    path('editcheckout/<int:pk>',views.edit_checkout,name="editdata"),
     path('biddata/<int:pk>',views.bid_data,name="biddata"),
     path('bid_get/<int:pk>',views.bid_get,name="bidget"),
     path('bid_update/<int:pk>',views.bid_update,name="bidupdate"),

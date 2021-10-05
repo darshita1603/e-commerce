@@ -1,6 +1,7 @@
 {% extends "base.html"%}
 {% load rest_framework %}
 {% load static%}
+{% load crispy_forms_tags %}
 {% block content %}
 <body class="page-template belle">
   <div class="pageWrapper">
@@ -24,7 +25,7 @@
       <div class="page section-header text-center">
         <div class="page-title">
           <div class="wrapper">
-            <h1 class="page-width">Lets Bid.....</h1>
+            <h1 class="page-width">Update Details.....</h1>
           </div>
         </div>
       </div>
@@ -36,7 +37,8 @@
             <div class="mb-4">
               <form method="POST" enctype="multipart/form-data">
                 {% csrf_token%}
-                <input type="hidden" name="id" value="{{product.pk}}"> 
+                {{form|crispy}}
+                <!-- <input type="hidden" name="id" value="{{product.pk}}">  -->
                 {% if messages %}
                 <div class="alert alert-success">
                     {% for message in messages %}
@@ -45,17 +47,8 @@
                 </div>
                 {% endif %}
                 <div class="row">
-                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group">
-                      <label class="form-label" for="price">Price</label>
-                    <input type="number" required name="price" min="1" max="10000000" class="form-control" id="price" placeholder="Enter price">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                 
                   <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
-                  <button id="clickme" this.onclick=null;" type="submit" style="width: 400px;height:40px;margin-top:20px;color:white;background-color:skyblue;font-size:16px;">Submit</button>
+                  <button type="submit" style="width: 400px;height:40px;margin-top:20px;color:white;background-color:skyblue;font-size:16px;">Update</button>
                     <!-- <input type="submit" class="btn mb-3" value="Sign In"> -->
     
                   </div>
@@ -67,14 +60,7 @@
       </div>
 
     </div>
-    <script>
-      var element = document.gxetElementById("clickme");
-      element.addEventListener("click", clickFunction);
-      function clickFunction(e) {
-          console.log("clicked");
-          element.removeEventListener("click", clickFunction);
-      }
-  </script>
+
 </body>
 {% endblock%}
 

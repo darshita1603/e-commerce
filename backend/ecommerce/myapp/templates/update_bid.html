@@ -38,7 +38,7 @@
               <form method="POST" enctype="multipart/form-data">
                 {% csrf_token%}
                 {{form|crispy}}
-                <input type="hidden" name="id" value="{{product.pk}}"> 
+                <!-- <input type="hidden" name="id" value="{{product.pk}}">  -->
                 {% if messages %}
                 <div class="alert alert-success">
                     {% for message in messages %}

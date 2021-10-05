@@ -1,0 +1,169 @@
+{% extends "base.html"%}
+{% load rest_framework %}
+{% load static%}
+{% block content %}
+<body class="page-template belle">
+    <div class="pageWrapper">
+        <!--Search Form Drawer-->
+        <div class="search">
+            <div class="search__form">
+                <form class="search-bar__form" action="#">
+                    <button class="go-btn search__button" type="submit"><i class="icon anm anm-search-l"></i></button>
+                    <input class="search__input" type="search" name="q" value="" placeholder="Search entire store..." aria-label="Search" autocomplete="off">
+                </form>
+                <button type="button" class="search-trigger close-btn"><i class="icon anm anm-times-l"></i></button>
+            </div>
+        </div> 
+        <!--Body Content-->
+        <div id="page-content">
+            <!--Page Title-->
+            <div class="page section-header text-center">
+                <div class="page-title">
+                    <div class="wrapper"><h1 class="page-width">Checkout</h1></div>
+                  </div>
+            </div>
+            <!--End Page Title-->
+            
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                        <div class="customer-box returning-customer">
+                            <h3><i class="icon anm anm-user-al"></i> Returning customer? <a href="{% url 'login'%}" class="text-white text-decoration-underline">Click here to login</a></h3>
+                        </div>
+                    </div>
+    
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                        <div class="customer-box customer-coupon">
+                            <h3 class="font-15 xs-font-13">Product Details<a href="#have-coupon" class="text-white text-decoration-underline" data-toggle="collapse"></a></h3>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row billing-fields">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                        <div class="create-ac-content bg-light-gray padding-20px-all">
+                            <form method="POST"  enctype="multipart/form-data">
+                                {% csrf_token%}
+                                {% if messages %}
+                                <div class="alert alert-success">
+                                    {% for message in messages %}
+                                        <a>{{ message }}</a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                <fieldset>
+                                    <h2 class="login-title mb-3">Your details</h2>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-firstname">First Name <span class="required-f">*</span></label>
+                                            <input name="firstname" value="" id="input-firstname" type="text" required>
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">Last Name <span class="required-f">*</span></label>
+                                            <input name="lastname" value="" id="input-lastname" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-telephone">Mobile No <span class="required-f">*</span></label>
+                                            <input name="mobileno" value="" id="input-telephone" type="tel" required> 
+                                        </div>
+                                    </div>
+                                </fieldset>
+    
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-address-1">Address <span class="required-f">*</span></label>
+                                            <input name="address" value="" id="input-address-1" type="text" required>
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-postcode">Post Code <span class="required-f">*</span></label>
+                                            <input name="postcode" value="" id="input-postcode" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-city">City <span class="required-f">*</span></label>
+                                            <input name="city" value="" id="input-city" type="text" required>
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-country">State <span class="required-f" required>*</span></label>
+                                            <select name="state" id="input-country">
+                                                <option value=""> --- Please Select --- </option>
+                                                <option value="244">	Andhra Pradesh</option>
+                                                <option value="1">Arunachal Pradesh</option>
+                                                <option value="2">Assam</option>
+                                                <option value="3">Bihar</option>
+                                                <option value="4">Chhattisgarh</option>
+                                                <option value="5">Goa</option>
+                                                <option value="6">Gujarat</option>
+                                                <option value="7">Haryana</option>
+                                                <option value="8">Himachal Pradesh</option>
+                                                <option value="9">Jharkhand	</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <label class="form-check-label padding-15px-left">
+                                                
+                                               <a href="{% url 'register'%}"><b>Create Your Account ???</b></a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <button class="button button1" type="submit">Save</button>   
+                            </form>
+                            <a href="{% url 'editdata' pk=user.id%}"><button class="button button1" type="submit">Update</button> </a> 
+                        </div>
+                    </div>
+    
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="your-order-payment">
+                            <div class="your-order">
+                                <h2 class="order-title mb-4">Your Order</h2>
+    
+                                <div class="table-responsive-sm order-table"> 
+                                    <table class="bg-white table table-bordered table-hover text-center">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">Product Name</th>
+                                                <th>Price</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        {% for i in products %}
+                                        <tbody>  
+                                            <tr>
+                                                <td class="text-left">{{i.model_name}}</td>
+                                                <td>{{i.price}}</td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                        {% endfor %}
+                                        <tfoot class="font-weight-600">
+                                            <tr>
+                                                <td colspan="1" class="text-right">Total</td>
+                                                <td>{{total}}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <hr />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    </body>
+    {% endblock %}
+    
